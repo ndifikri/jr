@@ -79,7 +79,7 @@ if uploaded_file is not None:
                         },
                         {
                             "type": "text",
-                            "text": "Summarize the file into one paragraph.",
+                            "text": "Summarize the file into one paragraph. Write the summary in Indonesia language.",
                         }
                     ],
                 },
@@ -111,7 +111,7 @@ if uploaded_file is not None:
                         },
                         {
                             "type": "text",
-                            "text": "Summarize the file into several bullet points.",
+                            "text": "Summarize the file into several bullet points. Write in Indonesia language.",
                         }
                     ],
                 },
