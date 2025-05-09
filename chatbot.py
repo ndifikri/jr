@@ -64,7 +64,7 @@ else:
 set_background_image(background_image_path)
 
 # Judul aplikasi llm
-st.title("Summarize Document")
+st.title("General Chatbot")
 
 # User input for API key
 api_key = st.text_input("Enter your API Key:", type="password")
