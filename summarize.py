@@ -73,7 +73,7 @@ if uploaded_file is not None:
                         {
                             "type": "file",
                             "file": {
-                                "filename": "draconomicon.pdf",
+                                "filename": file_name,
                                 "file_data": f"data:application/pdf;base64,{encoded_base64}",
                             }
                         },
@@ -105,7 +105,7 @@ if uploaded_file is not None:
                         {
                             "type": "file",
                             "file": {
-                                "filename": "draconomicon.pdf",
+                                "filename": file_name,
                                 "file_data": f"data:application/pdf;base64,{encoded_base64}",
                             }
                         },
