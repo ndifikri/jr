@@ -97,8 +97,9 @@ if api_key:
     tools = [search_articles]
 
     agent_prompt = '''Kamu adalah asisten AI yang ramah dan sopan. Tugas kamu adalah menjawab pertanyaan yang diberikan oleh user. Jawab pertanyaan menggunakan bahasa Indonesia.
-    Kamu disediakan tools untuk retrieve informasi mengenai laporan tahunan "PT Jasa Raharja", jadi jangan ragu untuk menggunakan tools tersebut untuk menjawab pertanyaan tentang "Jasa Raharja".
-    Silahkan bertanya balik apabila dirasa pertanyaan dari user masih ambigu atau belum jelas.'''
+Kamu disediakan tools untuk retrieve informasi mengenai laporan tahunan "PT Jasa Raharja", jadi jangan ragu untuk menggunakan tools tersebut untuk menjawab pertanyaan tentang "Jasa Raharja".
+Silahkan bertanya balik apabila dirasa pertanyaan dari user masih ambigu atau belum jelas.
+'''
 
     agent_executor = create_react_agent(
         llm, tools, prompt=agent_prompt
@@ -126,7 +127,8 @@ if prompt := st.chat_input("Let's say: Hi Celerates!"):
     
     # Display assistant response in chat message container
     with st.chat_message("AI"):
-        question = {"messages": [("user", prompt)]}
+        input_query = f"User : {prompt}\nHistory : {history}"
+        question = {"messages": [("user", input_query)]}
         response_llm = agent_executor.invoke(question)
         response = response_llm["messages"][-1]
         answer = response.content
