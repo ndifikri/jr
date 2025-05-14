@@ -81,7 +81,7 @@ if api_key:
     )
 
     embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-large",
+        model="text-embedding-3-small",
         api_key=api_key)
 
     db_path = "./faiss_small"
