@@ -9,32 +9,6 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
 
-def chat(sys_prompt, question, history):
-    completion = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "developer",
-                "content": f"{sys_prompt}\nBerikut ini disajikan history chat sebagai tambahan informasi agar chat kamu semakin relevan.\nChat history : {history}"
-            },
-            {
-                "role": "user",
-                "content": question
-            }
-        ],
-    )
-    answer = completion.choices[0].message.content
-    input_tokens = completion.usage.prompt_tokens
-    output_tokens = completion.usage.completion_tokens
-    price = 17_000 * ((input_tokens*0.15) + (output_tokens*0.6))/1_000_000
-    response_json = {
-        'answer' : answer,
-        'input_tokens' : input_tokens,
-        'output_tokens' : output_tokens,
-        'price' : price
-    }
-    return response_json
-
 with st.spinner("Preparing Application", show_time=True):
     theme_json = st_theme()
     time.sleep(1)
