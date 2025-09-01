@@ -12,22 +12,23 @@ QDRANT_URL = st.text_input("QDRANT_URL", type="password")
 QDRANT_API_KEY = st.text_input("QDRANT_API_KEY", type="password")
 OPENAI_API_KEY = st.text_input("OPENAI_API_KEY", type="password")
 
-llm = ChatOpenAI(
-    model="gpt-4o-mini",
-    api_key = OPENAI_API_KEY
-)
+if QDRANT_API_KEY and OPENAI_API_KEY:
+    llm = ChatOpenAI(
+        model="gpt-4o-mini",
+        api_key = OPENAI_API_KEY
+    )
 
-embeddings = OpenAIEmbeddings(
-    model="text-embedding-3-small",
-    api_key = OPENAI_API_KEY)
+    embeddings = OpenAIEmbeddings(
+        model="text-embedding-3-small",
+        api_key = OPENAI_API_KEY)
 
-collection_name = "small_recipes"
-qdrant = QdrantVectorStore.from_existing_collection(
-    embedding=embeddings,
-    collection_name=collection_name,
-    url=QDRANT_URL,
-    api_key=QDRANT_API_KEY
-)
+    collection_name = "small_recipes"
+    qdrant = QdrantVectorStore.from_existing_collection(
+        embedding=embeddings,
+        collection_name=collection_name,
+        url=QDRANT_URL,
+        api_key=QDRANT_API_KEY
+    )
 
 @tool
 def get_relevant_docs(question):
