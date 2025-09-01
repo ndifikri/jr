@@ -10,8 +10,11 @@ dependencies = [
     "langchain-community>=0.3.24",
     "langchain-core>=0.3.59",
     "langchain-openai>=0.3.16",
+    "langchain-qdrant>=0.2.0",
     "langgraph>=0.4.3",
     "openai>=1.77.0",
+    "pandas>=2.2.3",
+    "qdrant-client>=1.15.1",
     "st-theme>=1.2.3",
     "streamlit>=1.45.0",
 ]
