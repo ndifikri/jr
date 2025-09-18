@@ -6,29 +6,29 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from langchain.tools import tool
 from langgraph.prebuilt import create_react_agent
+from langchain_core.messages import ToolMessage
 
 # Mengakses variabel dari file .env
 QDRANT_URL = st.text_input("QDRANT_URL", type="password")
 QDRANT_API_KEY = st.text_input("QDRANT_API_KEY", type="password")
 OPENAI_API_KEY = st.text_input("OPENAI_API_KEY", type="password")
 
-if QDRANT_API_KEY and OPENAI_API_KEY:
-    llm = ChatOpenAI(
-        model="gpt-4o-mini",
-        api_key = OPENAI_API_KEY
-    )
+llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    api_key = OPENAI_API_KEY
+)
 
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key = OPENAI_API_KEY)
+embeddings = OpenAIEmbeddings(
+    model="text-embedding-3-small",
+    api_key = OPENAI_API_KEY)
 
-    collection_name = "small_recipes"
-    qdrant = QdrantVectorStore.from_existing_collection(
-        embedding=embeddings,
-        collection_name=collection_name,
-        url=QDRANT_URL,
-        api_key=QDRANT_API_KEY
-    )
+collection_name = "small_recipes"
+qdrant = QdrantVectorStore.from_existing_collection(
+    embedding=embeddings,
+    collection_name=collection_name,
+    url=QDRANT_URL,
+    api_key=QDRANT_API_KEY
+)
 
 @tool
 def get_relevant_docs(question):
@@ -65,11 +65,19 @@ def chat_chef(question, history):
             total_output_tokens += message.response_metadata["token_usage"].get("completion_tokens", 0)
 
     price = 17_000*(total_input_tokens*0.15 + total_output_tokens*0.6)/1_000_000
+
+    tool_messages = []
+    for message in result["messages"]:
+        if isinstance(message, ToolMessage):
+            tool_message_content = message.content
+            tool_messages.append(tool_message_content)
+
     response = {
         "answer": answer,
         "price": price,
         "total_input_tokens": total_input_tokens,
-        "total_output_tokens": total_output_tokens
+        "total_output_tokens": total_output_tokens,
+        "tool_messages": tool_messages
     }
     return response
 
@@ -102,6 +110,9 @@ if prompt := st.chat_input("Ask me recipes question"):
         answer = response["answer"]
         st.markdown(answer)
         st.session_state.messages.append({"role": "AI", "content": answer})
+
+    with st.expander("**Tool Calls:**"):
+        st.code(response["tool_messages"])
 
     with st.expander("**History Chat:**"):
         st.code(history)
