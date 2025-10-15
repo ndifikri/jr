@@ -40,7 +40,7 @@ Here is job requirements:
     )
 
     class ResponseFormatter(BaseModel):
-        score: int = Field(description="Give score from 0 to 100 for how much this candidate suits for AI Engineer role")
+        score: int = Field(description="Give score from 0 to 100 for how much this candidate suits for specific role")
         reason: str = Field(description="Give the reason about match or not the candidate with needed role")
         desc: str = Field(description="Describe the candidate's skills and capability for needed role")
 
