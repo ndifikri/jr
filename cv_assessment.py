@@ -6,6 +6,11 @@ from pydantic import BaseModel, Field
 from langchain.callbacks import get_openai_callback
 from langchain_core.messages import HumanMessage
 
+QDRANT_URL = st.secrets["QDRANT_URL"]
+QDRANT_API_KEY = st.secrets["QDRANT_API_KEY"]
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+
 def chat(req_content, uploaded_cv):
     file_content = uploaded_cv.read()
     file_name = uploaded_cv.name
@@ -98,7 +103,7 @@ set_background_image(background_image_path)
 st.title("CV Assesment")
 
 # User input for API key
-api_key = st.text_input("Enter your API Key:", type="password")
+api_key = OPENAI_API_KEY
 if api_key:
     llm = ChatOpenAI(
         model="gpt-4o-mini",
